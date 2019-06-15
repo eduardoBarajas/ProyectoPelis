@@ -1,6 +1,13 @@
 package com.CODEns.BackendAPI.Entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Actor {
+	@Id
+	@GeneratedValue
     private int id_actor;
     private String name;
 

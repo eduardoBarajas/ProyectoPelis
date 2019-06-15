@@ -17,7 +17,7 @@ public class MovieSuggestion {
 
     public String getSuggestionDate() { return suggestion_date; }
 
-    public String getSuggestion() { return getSuggestion(); }
+    public String getSuggestion() { return suggestion; }
 
     public int getIdUser() { return id_user; }
 

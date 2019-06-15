@@ -1,10 +1,8 @@
 package com.CODEns.BackendAPI.DTOs;
 
-import java.io.Serializable;
-
 import com.CODEns.BackendAPI.Entities.User;
 
-public class UserDTO implements Serializable {
+public class UserDTO {
 	private int id_user;
     private String name;
     private String username;

@@ -35,12 +35,28 @@ public class UsersService {
 	}
 	
 	public UserDTO getUserById(Integer id) {
-		User user = userRepository.findById(id).get();
-		UserDTO user_dto;
-		if (user != null) {
+		UserDTO user_dto = new UserDTO("Error", "No se encontro el usuario en la base de datos.");
+		if (userRepository.existsById(id)) {
+			User user = userRepository.findById(id).get();
 			user_dto = new UserDTO(user, "Success", "Se obtuvo el usuario con exito.");
-		} else {
-			user_dto = new UserDTO("Error", "No se encontro el usuario en la base de datos.");
+		}
+		return user_dto;
+	}
+	
+	public UserDTO deleteUserById(Integer id) {
+		UserDTO user_dto = new UserDTO("Error", "No existe ese usuario.");
+		if (userRepository.existsById(id)) {
+			userRepository.deleteById(id);
+			user_dto.setMessage("Se elimino ese usuario con exito.");
+			user_dto.setStatus("Success");
+		}
+		return user_dto;
+	}
+	
+	public UserDTO updateUser(User user) {
+		UserDTO user_dto = new UserDTO("Error", "No se encontro el usuario en la base de datos."+user.getId()+user.getName()+user.getEmail());
+		if (userRepository.existsById(user.getId())) {
+			user_dto = new UserDTO(userRepository.save(user), "Success", "Se actualizo el usuario con exito.");
 		}
 		return user_dto;
 	}
