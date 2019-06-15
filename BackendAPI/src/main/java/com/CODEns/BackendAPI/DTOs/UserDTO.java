@@ -2,6 +2,11 @@ package com.CODEns.BackendAPI.DTOs;
 
 import com.CODEns.BackendAPI.Entities.User;
 
+/*
+ * La clase DTO de usuario, es identica a la entidad de usuario con la diferencia de contener campos extras, 
+ * como status y message que son para la comunicacion con el cliente que recibira la informacion.
+ */
+
 public class UserDTO {
 	private int id_user;
     private String name;
@@ -37,7 +42,7 @@ public class UserDTO {
     	this.username = user.getUsername();
     }
     
-	public int getId_user() {
+	public int getId() {
 		return id_user;
 	}
 	public void setId_user(int id_user) {

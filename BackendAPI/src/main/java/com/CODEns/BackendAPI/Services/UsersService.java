@@ -10,6 +10,10 @@ import com.CODEns.BackendAPI.DTOs.UserDTO;
 import com.CODEns.BackendAPI.Entities.User;
 import com.CODEns.BackendAPI.Repositories.UserRepository;
 
+/*
+ * Este es el servicio del modulo de usuarios, es el que controla la logica de persistencia.
+ */
+
 @Service
 public class UsersService {
 	@Autowired
@@ -54,7 +58,7 @@ public class UsersService {
 	}
 	
 	public UserDTO updateUser(User user) {
-		UserDTO user_dto = new UserDTO("Error", "No se encontro el usuario en la base de datos."+user.getId()+user.getName()+user.getEmail());
+		UserDTO user_dto = new UserDTO("Error", "No se encontro el usuario en la base de datos.");
 		if (userRepository.existsById(user.getId())) {
 			user_dto = new UserDTO(userRepository.save(user), "Success", "Se actualizo el usuario con exito.");
 		}

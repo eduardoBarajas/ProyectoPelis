@@ -6,6 +6,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * Entidad de usuario @Entity, esta es la usada para la persistencia de datos.
+ * la tabla se creara con @Table, por default se crean los campos de la tabla con los nombres de las propiedades pero
+ * este comportamiento puede se cambiado utilizando la anotacion @Column.
+ */
+
 @Entity
 @Table(name = "User")
 public class User {
