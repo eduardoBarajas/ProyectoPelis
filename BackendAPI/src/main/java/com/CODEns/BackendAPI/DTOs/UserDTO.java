@@ -4,90 +4,90 @@ import com.CODEns.BackendAPI.Entities.User;
 
 /*
  * La clase DTO de usuario, es identica a la entidad de usuario con la diferencia de contener campos extras, 
- * como status y message que son para la comunicacion con el cliente que recibira la informacion.
+ * como Status y Message que son para la comunicacion con el cliente que recibira la informacion.
  */
 
 public class UserDTO {
-	private int id_user;
-    private String name;
-    private String username;
-    private String private_key;
-    private String email;
-    private String creation_date;
-    private String status;
-    private String message;
+	private int IdUser;
+    private String Name;
+    private String Username;
+    private String PrivateKey;
+    private String Email;
+    private String CreationDate;
+    private String Status;
+    private String Message;
     
-    public UserDTO(User user, String status, String message) {
-    	this.creation_date = user.getCreationDate();
-    	this.email = user.getEmail();
-    	this.id_user = user.getId();
-    	this.name = user.getName();
-    	this.private_key = user.getPrivateKey();
-    	this.username = user.getUsername();
-    	this.status = status;
-    	this.message = message;
+    public UserDTO(User user, String Status, String Message) {
+    	this.CreationDate = user.getCreationDate();
+    	this.Email = user.getEmail();
+    	this.IdUser = user.getId();
+    	this.Name = user.getName();
+    	this.PrivateKey = user.getPrivateKey();
+    	this.Username = user.getUsername();
+    	this.Status = Status;
+    	this.Message = Message;
     }
     
-    public UserDTO(String status, String message) {
-    	this.status = status;
-    	this.message = message;
+    public UserDTO(String Status, String Message) {
+    	this.Status = Status;
+    	this.Message = Message;
     }
     
     public UserDTO(User user) {
-    	this.creation_date = user.getCreationDate();
-    	this.email = user.getEmail();
-    	this.id_user = user.getId();
-    	this.name = user.getName();
-    	this.private_key = user.getPrivateKey();
-    	this.username = user.getUsername();
+    	this.CreationDate = user.getCreationDate();
+    	this.Email = user.getEmail();
+    	this.IdUser = user.getId();
+    	this.Name = user.getName();
+    	this.PrivateKey = user.getPrivateKey();
+    	this.Username = user.getUsername();
     }
     
 	public int getId() {
-		return id_user;
+		return IdUser;
 	}
-	public void setId_user(int id_user) {
-		this.id_user = id_user;
+	public void setIdUser(int IdUser) {
+		this.IdUser = IdUser;
 	}
 	public String getName() {
-		return name;
+		return Name;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String Name) {
+		this.Name = Name;
 	}
 	public String getUsername() {
-		return username;
+		return Username;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String Username) {
+		this.Username = Username;
 	}
-	public String getPrivate_key() {
-		return private_key;
+	public String getPrivateKey() {
+		return PrivateKey;
 	}
-	public void setPrivate_key(String private_key) {
-		this.private_key = private_key;
+	public void setPrivateKey(String PrivateKey) {
+		this.PrivateKey = PrivateKey;
 	}
 	public String getEmail() {
-		return email;
+		return Email;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String Email) {
+		this.Email = Email;
 	}
-	public String getCreation_date() {
-		return creation_date;
+	public String getCreationDate() {
+		return CreationDate;
 	}
-	public void setCreation_date(String creation_date) {
-		this.creation_date = creation_date;
+	public void setCreationDate(String CreationDate) {
+		this.CreationDate = CreationDate;
 	}
 	public String getStatus() {
-		return status;
+		return Status;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setStatus(String Status) {
+		this.Status = Status;
 	}
 	public String getMessage() {
-		return message;
+		return Message;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessage(String Message) {
+		this.Message = Message;
 	}
 }

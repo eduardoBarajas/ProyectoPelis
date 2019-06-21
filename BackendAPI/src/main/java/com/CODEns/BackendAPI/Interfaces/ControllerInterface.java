@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Los metodos reciben objectos genericos 'T' para los DTO, y 'S' para las entidades que se usaran en el repositorio. 
  */
 
-public interface ControllerInterface<T, S> {
+public interface ControllerInterface<D, E> {
 
-	public Resource<T> add(@ModelAttribute S entity);
+	public Resource<D> add(@ModelAttribute E entity);
   
-	public Resources<Resource<T>> getAll();
+	public Resources<Resource<D>> getAll();
 	
-	public Resource<T> getById(@PathVariable Integer id);
+	public Resource<D> getById(@PathVariable Integer id);
 	
-	public Resource<T> deleteById(@PathVariable Integer id);
+	public Resource<D> deleteById(@PathVariable Integer id);
 	
-	public Resource<T> update(@ModelAttribute S entity, @PathVariable Integer id);
+	public Resource<D> update(@ModelAttribute E entity, @PathVariable Integer id);
 	
 }

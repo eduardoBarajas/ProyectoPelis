@@ -1,42 +1,129 @@
 package com.CODEns.BackendAPI.Entities;
 
-public class Movie {
-    private int id_movie;
-    private String title;
-    private String original_title;
-    private String synopsis;
-    private int id_tags;
-    private int id_genres;
-    private int lenght;
-    private String poster_link;
-    private int id_cast;
-    private int id_reviews;
-    private int id_movie_links;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    public Movie(String title) {
-        this.title = title;
+@Entity
+public class Movie {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer idMovie;
+	@Column(name="title", unique=true)
+    private String title;
+    private String originalTitle;
+    @Column(name="synopsis",columnDefinition="LONGTEXT")
+    private String synopsis;
+    private Integer lenght;
+    private String posterLink;
+    private String tags;
+    private String genres;
+    private String cast;
+    private Double grade;
+    private Integer year;
+    private String creationDate;
+
+    public Movie() {
+    	
     }
 
-    public int getId() { return id_movie; }
+	public Integer getIdMovie() {
+		return idMovie;
+	}
 
-    public int getIdTags() { return id_tags; }
+	public void setIdMovie(Integer idMovie) {
+		this.idMovie = idMovie;
+	}
 
-    public int getIdGenres() { return id_genres; }
+	public String getTitle() {
+		return title;
+	}
 
-    public int getIdCast() { return id_cast; }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public int getIdReviews() { return id_reviews; }
+	public String getOriginalTitle() {
+		return originalTitle;
+	}
 
-    public int getIdMovieLinks() { return id_movie_links; }
+	public void setOriginalTitle(String originalTitle) {
+		this.originalTitle = originalTitle;
+	}
 
-    public int getLenght() { return lenght; }
+	public String getSynopsis() {
+		return synopsis;
+	}
 
-    public String getTitle() { return title; }
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
+	}
 
-    public String getOriginalTitle() { return original_title; }
+	public Integer getLenght() {
+		return lenght;
+	}
 
-    public String getSynopsis() { return synopsis; }
+	public void setLenght(Integer lenght) {
+		this.lenght = lenght;
+	}
 
-    public String getPosterLink() { return poster_link; }
+	public String getPosterLink() {
+		return posterLink;
+	}
 
+	public void setPosterLink(String posterLink) {
+		this.posterLink = posterLink;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getGenres() {
+		return genres;
+	}
+
+	public void setGenres(String genres) {
+		this.genres = genres;
+	}
+
+	public String getCast() {
+		return cast;
+	}
+
+	public void setCast(String cast) {
+		this.cast = cast;
+	}
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+    
+    
 }

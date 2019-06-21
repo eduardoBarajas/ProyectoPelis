@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /*
  * Entidad de usuario @Entity, esta es la usada para la persistencia de datos.
@@ -13,50 +12,49 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id_user;
-    private String name;
-    private String username;
-    private String private_key;
-    private String email;
-    private String creation_date;
-    private int role;
+    private int IdUser;
+    private String Name;
+    private String Username;
+    private String PrivateKey;
+    private String Email;
+    private String CreationDate;
+    private int Role;
 
     public User(String user) {
-        this.name = user;
+        this.Name = user;
     }
     public User() {
 
     }
 
-    public String getName() { return name; }
+    public String getName() { return Name; }
 
-    public String getUsername() { return this.username; }
+    public String getUsername() { return this.Username; }
 
-    public int getId() { return this.id_user; }
+    public int getId() { return this.IdUser; }
 
-    public String getPrivateKey() { return private_key; }
+    public String getPrivateKey() { return PrivateKey; }
 
-    public String getEmail() { return email; }
+    public String getEmail() { return Email; }
 
-    public String getCreationDate() { return creation_date; }
+    public String getCreationDate() { return CreationDate; }
 
-    public int getRole() { return role; }
+    public int getRole() { return Role; }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String Name) { this.Name = Name; }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setUserName(String Username) { this.Username = Username; }
 
-    public void setId(int id_user) { this.id_user = id_user; }
+    public void setId(int IdUser) { this.IdUser = IdUser; }
 
-    public void setPrivateKey(String private_key) { this.private_key = private_key; }
+    public void setPrivateKey(String PrivateKey) { this.PrivateKey = PrivateKey; }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String Email) { this.Email = Email; }
 
-    public void setCreationDate(String date) { this.creation_date = date; }
+    public void setCreationDate(String date) { this.CreationDate = date; }
 
-    public void setRole(int role) { this.role = role; }
+    public void setRole(int Role) { this.Role = Role; }
 }

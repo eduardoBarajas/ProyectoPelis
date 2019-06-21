@@ -28,18 +28,13 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
 	@Autowired
 	private UsersService users_service;
 	
-	private GenericResourceAssembler<UserDTO> resource_assembler;
-	
 	@Autowired
-	public UsersController(GenericResourceAssembler<UserDTO> resource) {
-		this.resource_assembler = resource;
-		this.resource_assembler.setController(this);
-	}
+	private GenericResourceAssembler<UserDTO> resource_assembler;
 
 	@Override
 	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<UserDTO> add(@ModelAttribute User entity) {
-		UserDTO user_dto = users_service.saveUser(entity);
+		UserDTO user_dto = users_service.save(entity);
 		return resource_assembler.toResource(user_dto);
 	}
 
@@ -47,7 +42,7 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resources<Resource<UserDTO>> getAll() {
 		// regresa a json todos los usuarios
-    	List<Resource<UserDTO>> users_dto = users_service.findAllUsers().stream()
+    	List<Resource<UserDTO>> users_dto = users_service.findAll().stream()
     			.map(user -> resource_assembler.toResource(user)).collect(Collectors.toList());
     	return new Resources<>(users_dto);
 	}
@@ -55,14 +50,14 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
 	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<UserDTO> getById(@PathVariable Integer id) {
-		UserDTO user_dto = users_service.getUserById(id);
+		UserDTO user_dto = users_service.getById(id);
 		return resource_assembler.toResource(user_dto);
 	}
 
 	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<UserDTO> deleteById(@PathVariable Integer id) {
-		UserDTO user = users_service.deleteUserById(id);
+		UserDTO user = users_service.deleteById(id);
 		return resource_assembler.toResource(user);
 	}
 
@@ -72,7 +67,7 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
 	public Resource<UserDTO> update(@ModelAttribute User entity, @PathVariable Integer id) {
 		// se tuvo que dejar con la variable en el url debido a que ModelAttribute no mapeo el atributo id_usuario
 		entity.setId(id);
-		UserDTO user_dto = users_service.updateUser(entity);
+		UserDTO user_dto = users_service.update(entity);
 		return resource_assembler.toResource(user_dto);
 	}
     
