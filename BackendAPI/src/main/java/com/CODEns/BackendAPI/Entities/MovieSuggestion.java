@@ -1,24 +1,68 @@
 package com.CODEns.BackendAPI.Entities;
 
-public class MovieSuggestion {
-    private int id_suggestion;
-    private String suggestion_date;
-    private String suggestion;
-    private int id_user;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    public MovieSuggestion(int id, int id_user, String date, String sug) {
-        id_suggestion = id;
-        this.id_user = id_user;
-        suggestion_date = date;
-        suggestion = sug;
+@Entity
+public class MovieSuggestion {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private int IdSuggestion;
+    private String SuggestionDate;
+    private String Suggestion;
+    private boolean Added;
+    private int IdUser;
+
+    public MovieSuggestion(int id, int IdUser, String date, String sug, boolean agregada) {
+        IdSuggestion = id;
+        this.IdUser = IdUser;
+        SuggestionDate = date;
+        Suggestion = sug;
+        this.Added = agregada;
     }
 
-    public int getId() { return id_suggestion; }
+	public int getIdSuggestion() {
+		return IdSuggestion;
+	}
 
-    public String getSuggestionDate() { return suggestion_date; }
+	public void setIdSuggestion(int IdSuggestion) {
+		this.IdSuggestion = IdSuggestion;
+	}
 
-    public String getSuggestion() { return getSuggestion(); }
+	public String getSuggestionDate() {
+		return SuggestionDate;
+	}
 
-    public int getIdUser() { return id_user; }
+	public void setSuggestionDate(String SuggestionDate) {
+		this.SuggestionDate = SuggestionDate;
+	}
+
+	public String getSuggestion() {
+		return Suggestion;
+	}
+
+	public void setSuggestion(String Suggestion) {
+		this.Suggestion = Suggestion;
+	}
+
+	public int getIdUser() {
+		return IdUser;
+	}
+
+	public void setIdUser(int IdUser) {
+		this.IdUser = IdUser;
+	}
+
+	public boolean isAdded() {
+		return Added;
+	}
+
+	public void setAdded(boolean agregada) {
+		this.Added = agregada;
+	}
+	
+	
 
 }

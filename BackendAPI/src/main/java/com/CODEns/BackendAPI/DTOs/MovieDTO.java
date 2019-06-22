@@ -1,20 +1,12 @@
-package com.CODEns.BackendAPI.Entities;
+package com.CODEns.BackendAPI.DTOs;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Entity
-public class Movie {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idMovie;
-	@Column(name="name", unique=true)
+import com.CODEns.BackendAPI.Entities.Movie;
+
+public class MovieDTO {
+	private Integer idMovie;
     private String name;
     private String originalName;
-    @Column(name="synopsis",columnDefinition="LONGTEXT")
     private String synopsis;
     private Integer length;
     private String poster;
@@ -25,9 +17,53 @@ public class Movie {
     private Integer year;
     private String creationDate;
     private String modificationDate;
+    private String status;
+    private String message;
 
-    public Movie() {
-    	
+    public MovieDTO(Movie mv, String Status, String Message) {
+    	this.idMovie = mv.getIdMovie();
+    	this.length = mv.getLength();
+    	this.originalName = mv.getOriginalName();
+    	this.poster = mv.getPoster();
+    	this.synopsis = mv.getSynopsis();
+    	this.name = mv.getName();
+    	this.creationDate = mv.getCreationDate();
+		this.year = mv.getYear();
+		this.cast = mv.getCast();
+		this.grade = mv.getGrade();
+		this.tags = mv.getTags();
+		this.genres = mv.getGenres();
+		this.modificationDate = mv.getModificationDate();
+    	this.status = Status;
+    	this.message = Message;
+    }
+    
+    public MovieDTO(String Status, String Message) {
+    	this.status = Status;
+    	this.message = Message;
+    }
+    
+    public MovieDTO(String Status, String Message, int idMovie, String name) {
+    	this.status = Status;
+    	this.message = Message;
+    	this.idMovie = idMovie;
+    	this.name = name;
+    }
+    
+    public MovieDTO(Movie mv) {
+    	this.idMovie = mv.getIdMovie();
+    	this.length = mv.getLength();
+    	this.originalName = mv.getOriginalName();
+    	this.poster = mv.getPoster();
+    	this.synopsis = mv.getSynopsis();
+    	this.name = mv.getName();
+    	this.creationDate = mv.getCreationDate();
+		this.year = mv.getYear();
+		this.cast = mv.getCast();
+		this.grade = mv.getGrade();
+		this.tags = mv.getTags();
+		this.genres = mv.getGenres();
+		this.modificationDate = mv.getModificationDate();
     }
 
 	public Integer getIdMovie() {
@@ -132,6 +168,22 @@ public class Movie {
 
 	public void setModificationDate(String modificationDate) {
 		this.modificationDate = modificationDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
     
 }

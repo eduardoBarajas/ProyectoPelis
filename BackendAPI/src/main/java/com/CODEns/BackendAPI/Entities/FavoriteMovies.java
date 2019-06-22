@@ -6,25 +6,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class WatchLaterMovie {
+public class FavoriteMovies {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private int IdWatchLater;
+    private int IdFavorites;
     private int IdMovie;
     private int IdUser;
+    
 
-    public WatchLaterMovie(int IdWatchLater, int IdMovie, int IdUser) {
-        this.IdWatchLater = IdWatchLater;
-        this.IdMovie = IdMovie;
+    public FavoriteMovies(int id_fav, int id_mov, int IdUser) {
+        this.IdFavorites = id_fav;
+        IdMovie = id_mov;
         this.IdUser = IdUser;
     }
 
-	public int getIdWatchLater() {
-		return IdWatchLater;
+	public int getIdFavorites() {
+		return IdFavorites;
 	}
 
-	public void setIdWatchLater(int IdWatchLater) {
-		this.IdWatchLater = IdWatchLater;
+	public void setIdFavorites(int IdFavorites) {
+		this.IdFavorites = IdFavorites;
 	}
 
 	public int getIdMovie() {
