@@ -1,5 +1,8 @@
 package com.CODEns.BackendAPI.Services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +26,8 @@ import com.CODEns.BackendAPI.Repositories.WatchLaterMovieRepository;
 @Service
 public class MoviesService {
 
+	final DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
 	@Autowired
 	private MovieRepository movieRepository;
 	
@@ -35,10 +40,10 @@ public class MoviesService {
 	@Autowired
 	private WatchLaterMovieRepository watchLaterRepository;
 	
-	public MovieDTO saveMovie(Movie entity) {
+	public MovieDTO save(Movie entity) {
 		MovieDTO movie_dto;
-		if (movieRepository.findByName(entity.getName()) != null) {
-			Movie db_entity = movieRepository.findByName(entity.getName());
+		Movie db_entity = movieRepository.findByNameAndYear(entity.getName(), entity.getYear());
+		if (db_entity != null) {
 			db_entity.setCast(entity.getCast());
 			db_entity.setPoster(entity.getPoster());
 			db_entity.setSynopsis(entity.getSynopsis());
@@ -65,12 +70,11 @@ public class MoviesService {
 		return movie_dto;
 	}
 	
-	public ResponseDTO<MovieDTO> saveMovies(List<Movie> entities) {
+	public ResponseDTO<MovieDTO> saveAll(List<Movie> entities) {
 		ResponseDTO<MovieDTO> response = new ResponseDTO<MovieDTO>();
 		for (int x = 0; x < entities.size(); x++) {
-			Movie db_entity = movieRepository.findByName(entities.get(x).getName());
+			Movie db_entity = movieRepository.findByNameAndYear(entities.get(x).getName(), entities.get(x).getYear());
 			if (db_entity != null) {
-				// Movie db_entity = movieRepository.findByName(entities.get(x).getName());
 				db_entity.setCast(entities.get(x).getCast());
 				db_entity.setPoster(entities.get(x).getPoster());
 				db_entity.setSynopsis(entities.get(x).getSynopsis());
@@ -112,7 +116,19 @@ public class MoviesService {
 		return response;
 	}
 
-	public List<MovieDTO> findAllMovies() {
+	public ResponseDTO<MovieDTO> findByNameAndYear(String name, int year) {
+		ResponseDTO<MovieDTO> response = new ResponseDTO<>();
+		response.setResponses(null);
+		Movie movie = movieRepository.findByNameAndYear(name, year);
+		response.setStatus("Completed");
+		if (movie != null) {
+			response.setStatus("Success");
+			response.setMessage("Esta pelicula ya se encuentra en el sistema, si continuas con la operacion se sobreescribiran los datos.");
+		}
+		return response;
+	}
+
+	public List<MovieDTO> findAll() {
 		List<MovieDTO> movies_dto = new LinkedList<>();
 		for(Movie movie : movieRepository.findAll()) {
 			movies_dto.add(new MovieDTO(movie));
@@ -120,7 +136,7 @@ public class MoviesService {
 		return movies_dto;
 	}
 
-	public MovieDTO getMovieById(Integer id) {
+	public MovieDTO getById(Integer id) {
 		MovieDTO movie_dto = new MovieDTO("Error", "No se encontro la pelicula en la base de datos.");
 		if (movieRepository.existsById(id)) {
 			Movie movie = movieRepository.findById(id).get();
@@ -132,7 +148,7 @@ public class MoviesService {
 		return movie_dto;
 	}
 
-	public MovieDTO deleteMovieById(Integer id) {
+	public MovieDTO deleteById(Integer id) {
 		MovieDTO movie_dto = new MovieDTO("Error", "No existe esa pelicula en la base de datos.");
 		if (movieRepository.existsById(id)) {
 			movieRepository.deleteById(id);
@@ -142,9 +158,10 @@ public class MoviesService {
 		return movie_dto;
 	}
 
-	public MovieDTO updateMovie(Movie entity) {
+	public MovieDTO update(Movie entity) {
 		MovieDTO movie_dto = new MovieDTO("Error", "No se encontro la pelicula en la base de datos.");
 		if (movieRepository.existsById(entity.getIdMovie())) {
+			entity.setModificationDate(this.sdf.format(new Date()));
 			movie_dto = new MovieDTO(movieRepository.save(entity), "Success", "Se actualizo la pelicula con exito.");
 		}
 		return movie_dto;

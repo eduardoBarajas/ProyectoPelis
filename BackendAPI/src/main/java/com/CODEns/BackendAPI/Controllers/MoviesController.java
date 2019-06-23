@@ -35,38 +35,51 @@ public class MoviesController {
 	
 	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<MovieDTO> addMovie(@RequestBody Movie entity) {
-		return new Resource<>(movies_service.saveMovie(entity));
+	public Resource<MovieDTO> add(@RequestBody Movie entity) {
+		return new Resource<>(movies_service.save(entity));
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<ResponseDTO<MovieDTO>> addMovies(@RequestBody List<Movie> entities) {
-		return new Resource<>(movies_service.saveMovies(entities));
+	public Resource<ResponseDTO<MovieDTO>> addAll(@RequestBody List<Movie> entities) {
+		return new Resource<>(movies_service.saveAll(entities));
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resources<Resource<MovieDTO>> getAllMovies() {
-		List<Resource<MovieDTO>> movies = movies_service.findAllMovies().stream()
+	public Resources<Resource<MovieDTO>> getAll() {
+		List<Resource<MovieDTO>> movies = movies_service.findAll().stream()
 				.map( movie -> new Resource<>(movie)).collect(Collectors.toList());
 		return new Resources<>(movies);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<MovieDTO> getMovieById(@PathVariable Integer id) {
-		return new Resource<>(movies_service.getMovieById(id));
+	public Resource<MovieDTO> getById(@PathVariable Integer id) {
+		return new Resource<>(movies_service.getById(id));
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+	@RequestMapping(value = "/name={name}/year={year}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<ResponseDTO<MovieDTO>> getByNameAndYear(@PathVariable String name, @PathVariable int year) {
+		return new Resource<>(movies_service.findByNameAndYear(name, year));
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<MovieDTO> deleteMovieById(@PathVariable Integer id) {
-		return new Resource<>(movies_service.deleteMovieById(id));
+	public Resource<MovieDTO> deleteById(@PathVariable Integer id) {
+		return new Resource<>(movies_service.deleteById(id));
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<MovieDTO> updateMovie(@ModelAttribute Movie entity, @PathVariable Integer id) {
-		entity.setIdMovie(id);
-		return new Resource<>(movies_service.updateMovie(entity));
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+	@RequestMapping(value = "/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<MovieDTO> update(@RequestBody Movie entity) {
+		return new Resource<>(movies_service.update(entity));
 	}
+	/*@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<MovieDTO> update(@ModelAttribute Movie entity, @PathVariable Integer id) {
+		entity.setIdMovie(id);
+		return new Resource<>(movies_service.update(entity));
+	}*/
 	
 	@RequestMapping(value = "/Suggestions", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<MovieSuggestionDTO> addMovieSuggestion(@ModelAttribute MovieSuggestion entity) {
