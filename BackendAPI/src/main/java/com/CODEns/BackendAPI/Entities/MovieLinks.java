@@ -11,7 +11,7 @@ public class MovieLinks {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idLinkMovie;
-    private int idMovie;
+	private int idMovie;
     @Column(name="link",columnDefinition="LONGTEXT")
     private String link;
 

@@ -1,11 +1,12 @@
 package com.CODEns.BackendAPI.Entities;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 @Entity
 public class Movie {
 	@Id
@@ -17,12 +18,13 @@ public class Movie {
     @Column(name="synopsis",columnDefinition="LONGTEXT")
     private String synopsis;
     private Integer length;
-    private String poster;
+	private String poster;
+	@Column(name="tags",columnDefinition="LONGTEXT")
     private String tags;
     private String genres;
     private String cast;
     private Double grade;
-    private Integer year;
+	private Integer year;
     private String creationDate;
     private String modificationDate;
 
@@ -133,5 +135,4 @@ public class Movie {
 	public void setModificationDate(String modificationDate) {
 		this.modificationDate = modificationDate;
 	}
-    
 }
