@@ -8,14 +8,14 @@ import com.CODEns.BackendAPI.Entities.MovieLinks;
 public class MovieLinksDTO {
 	private int idLinkMovie;
     private int idMovie;
-    private List<String> links = new LinkedList<>();
+    private String link;
     private String status;
     private String message;
 
     public MovieLinksDTO(MovieLinks movieLink, String status, String message) {
         this.idLinkMovie = movieLink.getIdLinkMovie();
         this.idMovie = movieLink.getIdMovie();
-        this.links.add(movieLink.getLink());
+        this.link = movieLink.getLink();
         this.status = status;
         this.message = message;
     }
@@ -28,7 +28,7 @@ public class MovieLinksDTO {
     public MovieLinksDTO(MovieLinks movieLink) {
         this.idLinkMovie = movieLink.getIdLinkMovie();
         this.idMovie = movieLink.getIdMovie();
-        this.links.add(movieLink.getLink());
+        this.link = movieLink.getLink();
     }
 
 	public int getIdLinkMovie() {
@@ -63,11 +63,11 @@ public class MovieLinksDTO {
 		this.message = message;
 	}
 
-	public List<String> getLinks() {
-		return links;
+	public String getLink() {
+		return link;
 	}
 
-	public void setLinks(List<String> links) {
-		this.links = links;
+	public void setLink(String link) {
+		this.link = link;
 	}
 }
