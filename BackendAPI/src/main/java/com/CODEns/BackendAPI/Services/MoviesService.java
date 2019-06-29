@@ -33,6 +33,9 @@ public class MoviesService {
 	
 	@Autowired
 	private MovieSuggestionRepository movieSuggestionRepository;
+
+	@Autowired
+	private LinksService linksService;
 	
 	@Autowired
 	private FavoriteMoviesRepository favoriteMoviesRepository;
@@ -128,6 +131,49 @@ public class MoviesService {
 		return response;
 	}
 
+	public List<MovieDTO> findAllByYear(int year) {
+		List<MovieDTO> movies_dto = new LinkedList<>();
+		for(Movie movie : movieRepository.findAllByYear(year)) {
+			movies_dto.add(new MovieDTO(movie));
+		}
+		return movies_dto;
+	}
+
+	public List<MovieDTO> findAllByGenres(String genres) {
+		List<MovieDTO> movies_dto = new LinkedList<>();
+		for(Movie movie : movieRepository.findAllByGenresContaining(genres)) {
+			movies_dto.add(new MovieDTO(movie));
+		}
+		return movies_dto;
+	}
+
+	public ResponseDTO<String> findAllGenres() {
+		ResponseDTO<String> genresResponse = new ResponseDTO<>();
+		for(Movie movie : movieRepository.findAll()) {
+			for (String genre : movie.getGenres().split(",")) {
+				if (genre != " " && !genresResponse.getResponses().contains(genre)) {
+					genresResponse.getResponses().add(genre);
+				}
+			}
+		}
+		if (genresResponse.getResponses().size() == 0) {
+			genresResponse.setMessage("No se pudieron obtener la lista de generos.");
+			genresResponse.setStatus("Error");
+		} else {
+			genresResponse.setMessage("Se obtuvo la lista de generos con exito.");
+			genresResponse.setStatus("Success");
+		}
+		return genresResponse;
+	}
+
+	public List<MovieDTO> findAllByFilter(String genre, int yearStart, int yearEnd, double ratingStart, double ratingEnd) {
+		List<MovieDTO> movies_dto = new LinkedList<>();
+		for(Movie movie : movieRepository.findAllByFilter(genre, yearStart, yearEnd, ratingStart, ratingEnd)) {
+			movies_dto.add(new MovieDTO(movie));
+		}
+		return movies_dto;
+	}
+
 	public List<MovieDTO> findAll() {
 		List<MovieDTO> movies_dto = new LinkedList<>();
 		for(Movie movie : movieRepository.findAll()) {
@@ -152,6 +198,7 @@ public class MoviesService {
 		MovieDTO movie_dto = new MovieDTO("Error", "No existe esa pelicula en la base de datos.");
 		if (movieRepository.existsById(id)) {
 			movieRepository.deleteById(id);
+			this.linksService.deleteByIdMovie(id);
 			movie_dto.setMessage("Se elimino la pelicula con exito.");
 			movie_dto.setStatus("Success");
 		}

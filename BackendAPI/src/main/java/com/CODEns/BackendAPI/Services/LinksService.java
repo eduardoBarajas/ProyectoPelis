@@ -84,7 +84,7 @@ public class LinksService {
 		return link_down_dto;
 	}
 	
-	public HttpStatus saveMoviesLinks(List<MovieLinks> links) {
+	public HttpStatus saveAll(List<MovieLinks> links) {
 		List<Integer> movies_identifiers = new LinkedList<>();
 		Map<Integer, List<String>> links_relation = new HashMap<>();
 		for (MovieLinks link : links) {
@@ -103,7 +103,7 @@ public class LinksService {
 		return HttpStatus.OK;
 	}
 	
-	public ResponseDTO<MovieLinksDTO> saveMovieLinks(List<String> links, int id) {
+	public ResponseDTO<MovieLinksDTO> save(List<String> links, int id) {
 		ResponseDTO<MovieLinksDTO> response = new ResponseDTO<>();
 		MovieLinksDTO link_dto;
 		for (String link : links) {
@@ -127,7 +127,7 @@ public class LinksService {
 		return response;
 	}
 
-	public List<MovieLinksDTO> findAllMovieLinks() {
+	public List<MovieLinksDTO> findAll() {
 		List<MovieLinksDTO> links_dto = new LinkedList<>();
 		for(MovieLinks link: movieLinksRepository.findAll()) {
 			links_dto.add(new MovieLinksDTO(link));
@@ -135,7 +135,7 @@ public class LinksService {
 		return links_dto;
 	}
 
-	public MovieLinksDTO getMovieLinksById(Integer id) {
+	public MovieLinksDTO getById(Integer id) {
 		MovieLinksDTO link_dto = new MovieLinksDTO("Error", "No se encontro en la base de datos.");
 		if (movieLinksRepository.existsById(id)) {
 			MovieLinks link = movieLinksRepository.findById(id).get();
@@ -144,7 +144,7 @@ public class LinksService {
 		return link_dto;
 	}
 	
-	public List<MovieLinksDTO> findAllMovieLinksByIdMovie(Integer id) {
+	public List<MovieLinksDTO> findAllByIdMovie(Integer id) {
 		List<MovieLinksDTO> links_dto = new LinkedList<>();
 		for (MovieLinks link : movieLinksRepository.findAllByIdMovie(id)) {
 			links_dto.add(new MovieLinksDTO(link));
@@ -152,7 +152,7 @@ public class LinksService {
 		return links_dto;
 	}
 
-	public MovieLinksDTO deleteMovieLinkById(Integer id) {
+	public MovieLinksDTO deleteById(Integer id) {
 		MovieLinksDTO link_dto = new MovieLinksDTO("Error", "No existe en la base de datos.");
 		if (movieLinksRepository.existsById(id)) {
 			movieLinksRepository.deleteById(id);
@@ -162,7 +162,7 @@ public class LinksService {
 		return link_dto;
 	}
 
-	public MovieLinksDTO updateMovieLinks(MovieLinks entity) {
+	public MovieLinksDTO update(MovieLinks entity) {
 		MovieLinksDTO link_dto = new MovieLinksDTO("Error", "No se encontro en la base de datos.");
 		if (movieLinkDownRepository.existsById(entity.getIdLinkMovie())) {
 			link_dto = new MovieLinksDTO(movieLinksRepository.save(entity), "Success", "Se actualizo con exito.");
@@ -170,7 +170,7 @@ public class LinksService {
 		return link_dto;
 	}
 
-	public void deleteMovieLinksByIdMovie(Integer id) {
+	public void deleteByIdMovie(Integer id) {
 		movieLinksRepository.deleteAllByIdMovie(id);
 	}
 
