@@ -9,48 +9,76 @@ import javax.persistence.Id;
 public class MovieReview {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private int IdReview;
-    private double Grade;
-    private String Review;
-    private int IdUser;
-    private int IdMovie;
-	public MovieReview(int idReview, double grade, String review, int idUser, int idMovie) {
+    private int idReview;
+    private double grade;
+	private String review;
+	private String reviewTitle;
+	private String publishedDate;
+	private String publishedTime;
+    private int idUser;
+    private int idMovie;
+	public MovieReview(int idReview, double grade, String review, int idUser, int idMovie, String date, String time) {
 		super();
-		IdReview = idReview;
-		Grade = grade;
-		Review = review;
-		IdUser = idUser;
-		IdMovie = idMovie;
+		this.idReview = idReview;
+		this.grade = grade;
+		this.review = review;
+		this.idUser = idUser;
+		this.idMovie = idMovie;
+		this.publishedDate = date;
+		this.publishedTime = time;
 	}
 	public int getIdReview() {
-		return IdReview;
+		return idReview;
 	}
 	public void setIdReview(int idReview) {
-		IdReview = idReview;
+		this.idReview = idReview;
 	}
 	public double getGrade() {
-		return Grade;
+		return grade;
 	}
 	public void setGrade(double grade) {
-		Grade = grade;
+		this.grade = grade;
 	}
 	public String getReview() {
-		return Review;
+		return review;
 	}
 	public void setReview(String review) {
-		Review = review;
+		this.review = review;
 	}
 	public int getIdUser() {
-		return IdUser;
+		return idUser;
 	}
 	public void setIdUser(int idUser) {
-		IdUser = idUser;
+		this.idUser = idUser;
 	}
 	public int getIdMovie() {
-		return IdMovie;
+		return idMovie;
 	}
 	public void setIdMovie(int idMovie) {
-		IdMovie = idMovie;
+		this.idMovie = idMovie;
 	}
 
+	public void setPublishedDate(String date) {
+		this.publishedDate = date;
+	}
+
+	public String getPublishedDate() {
+		return publishedDate;
+	}
+
+	public void setPublishedTime(String time) {
+		this.publishedTime = time;
+	}
+
+	public String getPublishedTime() {
+		return publishedTime;
+	}
+
+	public String getReviewTitle() {
+		return reviewTitle;
+	}
+
+	public void setReviewTitle(String title) {
+		this.reviewTitle = title;
+	}
 }

@@ -68,4 +68,12 @@ public class ReviewsService implements ServiceInterface<MovieReview, MovieReview
 		return review_dto;
 	}
 
+	public List<MovieReviewDTO> findAllByIdMovie(Integer idMovie) {
+		List<MovieReviewDTO> reviews_dto = new LinkedList<>();
+		for(MovieReview review: reviewRepository.findAllByIdMovie(idMovie)) {
+			reviews_dto.add(new MovieReviewDTO(review));
+		}
+		return reviews_dto;
+	}
+
 }
