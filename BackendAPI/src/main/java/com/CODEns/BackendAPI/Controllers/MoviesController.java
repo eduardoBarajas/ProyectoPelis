@@ -1,5 +1,6 @@
 package com.CODEns.BackendAPI.Controllers;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,14 +54,50 @@ public class MoviesController {
 		return new Resources<>(movies);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+	@RequestMapping(value = "/genre={genres}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resources<Resource<MovieDTO>> getAllByGenres(@PathVariable String genres) {
+		List<Resource<MovieDTO>> movies = movies_service.findAllByGenres(genres).stream()
+				.map( movie -> new Resource<>(movie)).collect(Collectors.toList());
+		return new Resources<>(movies);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+	@RequestMapping(value = "/genre={genre}/yearStart={startYear}/yearEnd={endYear}/ratingStart={ratingStart}/ratingEnd={ratingEnd}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resources<Resource<MovieDTO>> getAllByFilter(@PathVariable String genre, @PathVariable int startYear, @PathVariable int endYear,
+		@PathVariable double ratingStart, @PathVariable double ratingEnd) {
+		List<Resource<MovieDTO>> movies = movies_service.findAllByFilter(genre, startYear, endYear, ratingStart, ratingEnd).stream()
+				.map( movie -> new Resource<>(movie)).collect(Collectors.toList());
+		return new Resources<>(movies);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+	@RequestMapping(value = "/getAllGenres", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseDTO<String> getAllByGenres() {
+		return movies_service.findAllGenres();
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<MovieDTO> getById(@PathVariable Integer id) {
 		return new Resource<>(movies_service.getById(id));
 	}
 
 	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+	@RequestMapping(value = "/year={year}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resources<Resource<MovieDTO>> getAllByYear(@PathVariable int year) {
+		List<Resource<MovieDTO>> movies = movies_service.findAllByYear(year).stream()
+				.map( movie -> new Resource<>(movie)).collect(Collectors.toList());
+		return new Resources<>(movies);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/name={name}/year={year}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<ResponseDTO<MovieDTO>> getByNameAndYear(@PathVariable String name, @PathVariable int year) {
+		// si el nombre contiene el caracter '/' en su nombre se debe reemplazar utilizando el tag -slash- que se paso en el string desde el cliente.
+		if (name.contains("-slash-")) {
+			name = java.net.URLDecoder.decode(name.replace("-slash-", "/"), StandardCharsets.UTF_8);
+		}
 		return new Resource<>(movies_service.findByNameAndYear(name, year));
 	}
 
