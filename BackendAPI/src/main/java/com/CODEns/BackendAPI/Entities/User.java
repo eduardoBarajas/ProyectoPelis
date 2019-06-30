@@ -1,9 +1,13 @@
 package com.CODEns.BackendAPI.Entities;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /*
  * Entidad de usuario @Entity, esta es la usada para la persistencia de datos.
@@ -15,46 +19,53 @@ import javax.persistence.Id;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int IdUser;
-    private String Name;
-    private String Username;
-    private String PrivateKey;
-    private String Email;
-    private String CreationDate;
-    private int Role;
+    private int idUser;
+    private String name;
+    @Column(nullable = false, unique = true)
+    private String username;
+    @Column(columnDefinition="LONGTEXT")
+    private String password;
+    private String email;
+    private String creationDate;
+    private int role;
+    private int enabled;
 
     public User(String user) {
-        this.Name = user;
+        this.name = user;
     }
     public User() {
 
     }
 
-    public String getName() { return Name; }
+    public String getName() { return name; }
 
-    public String getUsername() { return this.Username; }
+    public String getUsername() { return this.username; }
 
-    public int getId() { return this.IdUser; }
+    public int getId() { return this.idUser; }
 
-    public String getPrivateKey() { return PrivateKey; }
+    public String getPassword() { return password; }
 
-    public String getEmail() { return Email; }
+    public String getEmail() { return email; }
 
-    public String getCreationDate() { return CreationDate; }
+    public String getCreationDate() { return creationDate; }
 
-    public int getRole() { return Role; }
+    public int getRole() { return role; }
 
-    public void setName(String Name) { this.Name = Name; }
+    public void setname(String name) { this.name = name; }
 
-    public void setUserName(String Username) { this.Username = Username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setId(int IdUser) { this.IdUser = IdUser; }
+    public void setId(int IdUser) { this.idUser = IdUser; }
 
-    public void setPrivateKey(String PrivateKey) { this.PrivateKey = PrivateKey; }
+    public void setPassword(String hash) { this.password = hash; }
 
-    public void setEmail(String Email) { this.Email = Email; }
+    public void setEmail(String Email) { this.email = Email; }
 
-    public void setCreationDate(String date) { this.CreationDate = date; }
+    public void setCreationDate(String date) { this.creationDate = date; }
 
-    public void setRole(int Role) { this.Role = Role; }
+    public void setRole(int Role) { this.role = Role; }
+
+    public void setEnabled(int enabled) { this.enabled = enabled; }
+
+    public int getEnabled() { return enabled; }
 }

@@ -10,18 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path="/users")
 public class UsersController implements ControllerInterface<UserDTO, User> {
 	
@@ -32,8 +36,10 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
 	private GenericResourceAssembler<UserDTO> resource_assembler;
 
 	@Override
-	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<UserDTO> add(@ModelAttribute User entity) {
+	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<UserDTO> add(@RequestBody User entity) {
+		System.out.println(entity.getEmail());
+		entity.setPassword(BCrypt.hashpw(entity.getPassword(), BCrypt.gensalt(16)));
 		UserDTO user_dto = users_service.save(entity);
 		return resource_assembler.toResource(user_dto);
 	}
@@ -63,8 +69,8 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
 
 	
 	@Override
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<UserDTO> update(@ModelAttribute User entity, @PathVariable Integer id) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<UserDTO> update(@RequestBody User entity, @PathVariable Integer id) {
 		// se tuvo que dejar con la variable en el url debido a que ModelAttribute no mapeo el atributo id_usuario
 		entity.setId(id);
 		UserDTO user_dto = users_service.update(entity);

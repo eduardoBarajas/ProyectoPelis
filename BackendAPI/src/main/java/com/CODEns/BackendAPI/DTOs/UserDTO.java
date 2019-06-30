@@ -8,86 +8,79 @@ import com.CODEns.BackendAPI.Entities.User;
  */
 
 public class UserDTO {
-	private int IdUser;
-    private String Name;
-    private String Username;
-    private String PrivateKey;
-    private String Email;
-    private String CreationDate;
-    private String Status;
-    private String Message;
+	private int idUser;
+    private String name;
+    private String username;
+    private String email;
+	private String creationDate;
+	private int role;
+    private String status;
+    private String message;
     
     public UserDTO(User user, String Status, String Message) {
-    	this.CreationDate = user.getCreationDate();
-    	this.Email = user.getEmail();
-    	this.IdUser = user.getId();
-    	this.Name = user.getName();
-    	this.PrivateKey = user.getPrivateKey();
-    	this.Username = user.getUsername();
-    	this.Status = Status;
-    	this.Message = Message;
+    	this.creationDate = user.getCreationDate();
+    	this.email = user.getEmail();
+    	this.idUser = user.getId();
+    	this.name = user.getName();
+		this.username = user.getUsername();
+		this.role = user.getRole();
+    	this.status = Status;
+    	this.message = Message;
     }
     
     public UserDTO(String Status, String Message) {
-    	this.Status = Status;
-    	this.Message = Message;
+    	this.status = Status;
+    	this.message = Message;
     }
     
     public UserDTO(User user) {
-    	this.CreationDate = user.getCreationDate();
-    	this.Email = user.getEmail();
-    	this.IdUser = user.getId();
-    	this.Name = user.getName();
-    	this.PrivateKey = user.getPrivateKey();
-    	this.Username = user.getUsername();
-    }
-    
-	public int getId() {
-		return IdUser;
+    	this.creationDate = user.getCreationDate();
+    	this.email = user.getEmail();
+    	this.idUser = user.getId();
+    	this.name = user.getName();
+		this.username = user.getUsername();
+		this.role = user.getRole();
 	}
-	public void setIdUser(int IdUser) {
-		this.IdUser = IdUser;
+	
+	public String getName() { return name; }
+
+    public String getUsername() { return this.username; }
+
+    public int getId() { return this.idUser; }
+
+    public String getEmail() { return email; }
+
+    public String getCreationDate() { return creationDate; }
+
+    public int getRole() { return role; }
+
+    public void setname(String name) { this.name = name; }
+
+    public void setUsername(String username) { this.username = username; }
+
+    public void setId(int IdUser) { this.idUser = IdUser; }
+
+    public void setEmail(String Email) { this.email = Email; }
+
+    public void setCreationDate(String date) { this.creationDate = date; }
+
+	public void setRole(int Role) { this.role = Role; }
+	
+	public void setMessage(String message) {
+		this.message = message;
 	}
-	public String getName() {
-		return Name;
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
-	public void setName(String Name) {
-		this.Name = Name;
-	}
-	public String getUsername() {
-		return Username;
-	}
-	public void setUsername(String Username) {
-		this.Username = Username;
-	}
-	public String getPrivateKey() {
-		return PrivateKey;
-	}
-	public void setPrivateKey(String PrivateKey) {
-		this.PrivateKey = PrivateKey;
-	}
-	public String getEmail() {
-		return Email;
-	}
-	public void setEmail(String Email) {
-		this.Email = Email;
-	}
-	public String getCreationDate() {
-		return CreationDate;
-	}
-	public void setCreationDate(String CreationDate) {
-		this.CreationDate = CreationDate;
-	}
-	public String getStatus() {
-		return Status;
-	}
-	public void setStatus(String Status) {
-		this.Status = Status;
-	}
+
 	public String getMessage() {
-		return Message;
+		return this.message;
 	}
-	public void setMessage(String Message) {
-		this.Message = Message;
+
+	public String getStatus() {
+		return this.status;
 	}
+    
+	
 }
