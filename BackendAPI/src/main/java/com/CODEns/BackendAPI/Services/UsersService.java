@@ -32,6 +32,10 @@ public class UsersService implements ServiceInterface<User, UserDTO> {
 		return user_dto;
 	}
 
+	public User findByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+
 	@Override
 	public List<UserDTO> findAll() {
 		List<UserDTO> users_dto = new LinkedList<>();

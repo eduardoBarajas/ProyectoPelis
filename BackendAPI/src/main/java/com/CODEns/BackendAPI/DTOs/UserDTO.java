@@ -13,7 +13,7 @@ public class UserDTO {
     private String username;
     private String email;
 	private String creationDate;
-	private int role;
+	private int authority;
     private String status;
     private String message;
     
@@ -23,7 +23,7 @@ public class UserDTO {
     	this.idUser = user.getId();
     	this.name = user.getName();
 		this.username = user.getUsername();
-		this.role = user.getRole();
+		this.authority = user.getAuthority();
     	this.status = Status;
     	this.message = Message;
     }
@@ -39,7 +39,7 @@ public class UserDTO {
     	this.idUser = user.getId();
     	this.name = user.getName();
 		this.username = user.getUsername();
-		this.role = user.getRole();
+		this.authority = user.getAuthority();
 	}
 	
 	public String getName() { return name; }
@@ -52,7 +52,7 @@ public class UserDTO {
 
     public String getCreationDate() { return creationDate; }
 
-    public int getRole() { return role; }
+    public int getauthority() { return authority; }
 
     public void setname(String name) { this.name = name; }
 
@@ -64,7 +64,7 @@ public class UserDTO {
 
     public void setCreationDate(String date) { this.creationDate = date; }
 
-	public void setRole(int Role) { this.role = Role; }
+	public void setauthority(int authority) { this.authority = authority; }
 	
 	public void setMessage(String message) {
 		this.message = message;

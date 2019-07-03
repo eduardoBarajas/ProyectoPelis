@@ -15,18 +15,12 @@ public class MovieReview {
 	private String reviewTitle;
 	private String publishedDate;
 	private String publishedTime;
+    private String username;
     private int idUser;
     private int idMovie;
-	public MovieReview(int idReview, double grade, String review, int idUser, int idMovie, String date, String time) {
-		super();
-		this.idReview = idReview;
-		this.grade = grade;
-		this.review = review;
-		this.idUser = idUser;
-		this.idMovie = idMovie;
-		this.publishedDate = date;
-		this.publishedTime = time;
-	}
+
+    public MovieReview() { }
+
 	public int getIdReview() {
 		return idReview;
 	}
@@ -80,5 +74,13 @@ public class MovieReview {
 
 	public void setReviewTitle(String title) {
 		this.reviewTitle = title;
+	}
+
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String user) {
+		this.username = user;
 	}
 }

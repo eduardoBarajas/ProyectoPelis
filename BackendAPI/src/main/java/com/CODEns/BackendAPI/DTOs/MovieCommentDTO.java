@@ -9,6 +9,7 @@ public class MovieCommentDTO {
 	private String publishedTime;
     private int idUser;
     private int idMovie;
+    private String username;
     private String status;
     private String message;
 
@@ -19,6 +20,7 @@ public class MovieCommentDTO {
 		this.idMovie = comment.getIdMovie();
 		this.publishedDate = comment.getPublishedDate();
 		this.publishedTime = comment.getPublishedTime();
+        this.username = comment.getUsername();
         this.status = status;
 		this.message = message;
     }
@@ -35,6 +37,7 @@ public class MovieCommentDTO {
 		this.idMovie = comment.getIdMovie();
 		this.publishedDate = comment.getPublishedDate();
 		this.publishedTime = comment.getPublishedTime();
+        this.username = comment.getUsername();
     }
 
 	public int getIdComment() {
@@ -92,6 +95,14 @@ public class MovieCommentDTO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String user) {
+		this.username = user;
 	}
 	
 }

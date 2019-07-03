@@ -14,7 +14,9 @@ public class MovieComment {
 	private String publishedDate;
 	private String publishedTime;
     private int idUser;
+    private String username;
     private int idMovie;
+
 	public MovieComment(int idcomment, String comment, int idUser, int idMovie, String date, String time) {
 		super();
 		this.idComment = idcomment;
@@ -24,6 +26,9 @@ public class MovieComment {
 		this.publishedDate = date;
 		this.publishedTime = time;
 	}
+
+    public MovieComment() { }
+
 	public int getIdComment() {
 		return idComment;
 	}
@@ -63,5 +68,13 @@ public class MovieComment {
 
 	public String getPublishedTime() {
 		return publishedTime;
+	}
+
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String user) {
+		this.username = user;
 	}
 }

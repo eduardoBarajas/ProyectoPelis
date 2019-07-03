@@ -27,7 +27,7 @@ public class User {
     private String password;
     private String email;
     private String creationDate;
-    private int role;
+    private int authority;
     private int enabled;
 
     public User(String user) {
@@ -49,7 +49,7 @@ public class User {
 
     public String getCreationDate() { return creationDate; }
 
-    public int getRole() { return role; }
+    public int getAuthority() { return authority; }
 
     public void setname(String name) { this.name = name; }
 
@@ -63,7 +63,7 @@ public class User {
 
     public void setCreationDate(String date) { this.creationDate = date; }
 
-    public void setRole(int Role) { this.role = Role; }
+    public void setAuthority(int authority) { this.authority = authority; }
 
     public void setEnabled(int enabled) { this.enabled = enabled; }
 

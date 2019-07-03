@@ -11,6 +11,7 @@ public class MovieReviewDTO {
 	private String reviewTitle;
     private int idUser;
     private int idMovie;
+    private String username;
     private String status;
     private String message;
 
@@ -22,6 +23,8 @@ public class MovieReviewDTO {
 		this.idMovie = review.getIdMovie();
 		this.publishedDate = review.getPublishedDate();
 		this.publishedTime = review.getPublishedTime();
+        this.username = review.getUsername();
+        this.reviewTitle = review.getReviewTitle();
         this.status = status;
 		this.message = message;
     }
@@ -37,6 +40,8 @@ public class MovieReviewDTO {
         this.review = review.getReview();
         this.idUser = review.getIdUser();
 		this.idMovie = review.getIdMovie();
+        this.username = review.getUsername();
+        this.reviewTitle = review.getReviewTitle();
 		this.publishedDate = review.getPublishedDate();
 		this.publishedTime = review.getPublishedTime();
     }
@@ -110,6 +115,14 @@ public class MovieReviewDTO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String user) {
+		this.username = user;
 	}
 	
 }
