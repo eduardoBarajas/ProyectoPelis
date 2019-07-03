@@ -9,38 +9,40 @@ import javax.persistence.Id;
 public class FavoriteMovies {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private int IdFavorites;
-    private int IdMovie;
-    private int IdUser;
+    private int idFavorites;
+    private int idMovie;
+    private int idUser;
     
 
-    public FavoriteMovies(int id_fav, int id_mov, int IdUser) {
-        this.IdFavorites = id_fav;
-        IdMovie = id_mov;
-        this.IdUser = IdUser;
+    public FavoriteMovies(int id_fav, int id_mov, int idUser) {
+        this.idFavorites = id_fav;
+        idMovie = id_mov;
+        this.idUser = idUser;
     }
 
+    public FavoriteMovies() { }
+
 	public int getIdFavorites() {
-		return IdFavorites;
+		return idFavorites;
 	}
 
-	public void setIdFavorites(int IdFavorites) {
-		this.IdFavorites = IdFavorites;
+	public void setIdFavorites(int idFavorites) {
+		this.idFavorites = idFavorites;
 	}
 
 	public int getIdMovie() {
-		return IdMovie;
+		return idMovie;
 	}
 
-	public void setIdMovie(int IdMovie) {
-		this.IdMovie = IdMovie;
+	public void setIdMovie(int idMovie) {
+		this.idMovie = idMovie;
 	}
 
 	public int getIdUser() {
-		return IdUser;
+		return idUser;
 	}
 
-	public void setIdUser(int IdUser) {
-		this.IdUser = IdUser;
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 }

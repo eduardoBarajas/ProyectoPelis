@@ -3,69 +3,69 @@ package com.CODEns.BackendAPI.DTOs;
 import com.CODEns.BackendAPI.Entities.FavoriteMovies;
 
 public class FavoriteMoviesDTO {
-	private int IdFavorites;
-    private int IdMovie;
-    private int IdUser;
-    private String Status;
-    private String Message;
+	private int idFavorites;
+    private int idMovie;
+    private int idUser;
+    private String status;
+    private String message;
 
     public FavoriteMoviesDTO(FavoriteMovies fav, String status, String message) {
-        this.IdFavorites = fav.getIdFavorites();
-        this.IdMovie = fav.getIdMovie();
-        this.IdUser = fav.getIdUser();
-        this.Status = status;
-        this.Message = message;
+        this.idFavorites = fav.getIdFavorites();
+        this.idMovie = fav.getIdMovie();
+        this.idUser = fav.getIdUser();
+        this.status = status;
+        this.message = message;
     }
     
     public FavoriteMoviesDTO(String status, String message) {
-        this.Status = status;
-        this.Message = message;
+        this.status = status;
+        this.message = message;
     }
     
     public FavoriteMoviesDTO(FavoriteMovies fav) {
-        this.IdFavorites = fav.getIdFavorites();
-        this.IdMovie = fav.getIdMovie();
-        this.IdUser = fav.getIdUser();
+        this.idFavorites = fav.getIdFavorites();
+        this.idMovie = fav.getIdMovie();
+        this.idUser = fav.getIdUser();
     }
 
 	public int getIdFavorites() {
-		return IdFavorites;
+		return idFavorites;
 	}
 
-	public void setIdFavorites(int IdFavorites) {
-		this.IdFavorites = IdFavorites;
+	public void setIdFavorites(int idFavorites) {
+		this.idFavorites = idFavorites;
 	}
 
 	public int getIdMovie() {
-		return IdMovie;
+		return idMovie;
 	}
 
-	public void setIdMovie(int IdMovie) {
-		this.IdMovie = IdMovie;
+	public void setIdMovie(int idMovie) {
+		this.idMovie = idMovie;
 	}
 
 	public int getIdUser() {
-		return IdUser;
+		return idUser;
 	}
 
-	public void setIdUser(int IdUser) {
-		this.IdUser = IdUser;
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getStatus() {
-		return Status;
+		return status;
 	}
 
 	public void setStatus(String status) {
-		Status = status;
+		this.status = status;
 	}
 
 	public String getMessage() {
-		return Message;
+		return message;
 	}
 
 	public void setMessage(String message) {
-		Message = message;
+		this.message = message;
 	}
 	
 	
