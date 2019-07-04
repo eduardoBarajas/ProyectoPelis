@@ -14,6 +14,8 @@ public interface FavoriteMoviesRepository extends CrudRepository<FavoriteMovies,
 
     FavoriteMovies findByIdMovie(int idMovie);
 
+    FavoriteMovies findByIdMovieAndIdUser(int idMovie, int idUser);
+
     @Modifying
     @Query(value = "DELETE FROM favorite_movies WHERE id_movie = ?1", nativeQuery = true)
     Integer deleteByIdMovie(int idMovie);

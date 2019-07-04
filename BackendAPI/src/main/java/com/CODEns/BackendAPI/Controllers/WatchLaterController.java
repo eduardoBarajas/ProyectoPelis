@@ -49,6 +49,11 @@ public class WatchLaterController {
 		return new Resource<>(watchLaterService.findByIdMovie(id_movie));
     }
 
+    @RequestMapping(value = "/WatchLater/Movie/{id_movie}/User/{id_user}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<WatchLaterMovieDTO> getWatchLaterByMovieAndIdUser(@PathVariable int id_movie, @PathVariable int id_user) {
+		return new Resource<>(watchLaterService.findByIdMovieAndIdUser(id_movie, id_user));
+    }
+
 	@RequestMapping(value = "/WatchLater/{id}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<WatchLaterMovieDTO> getWatchLaterById(@PathVariable Integer id) {
 		return new Resource<>(watchLaterService.getById(id));

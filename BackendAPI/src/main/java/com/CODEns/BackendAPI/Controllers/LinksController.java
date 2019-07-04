@@ -24,6 +24,7 @@ import com.CODEns.BackendAPI.DTOs.ResponseDTO;
 import com.CODEns.BackendAPI.Entities.MovieLinks;
 import com.CODEns.BackendAPI.Services.LinksService;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(path="")
 public class LinksController {
@@ -31,13 +32,11 @@ public class LinksController {
 	@Autowired
 	private LinksService links_service;
 	
-	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/admin/links/movie/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<ResponseDTO<MovieLinksDTO>> add(@RequestBody List<String> links, @PathVariable Integer id) {
 		return new Resource<>(links_service.save(links, id));
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/admin/links/movies/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public HttpStatus addAll(@RequestBody List<MovieLinks> links) {
 		return links_service.saveAll(links);
@@ -50,7 +49,6 @@ public class LinksController {
 		return new Resources<>(movies_links);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/links/movie/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resources<Resource<MovieLinksDTO>> getAllByIdMovie(@PathVariable Integer id) {
 		List<Resource<MovieLinksDTO>> movie_links = links_service.findAllByIdMovie(id).stream()
@@ -58,7 +56,6 @@ public class LinksController {
 		return new Resources<>(movie_links);
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/admin/links/movie/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public HttpStatus deleteByIdMovie(@PathVariable Integer id) {
 		links_service.deleteByIdMovie(id);

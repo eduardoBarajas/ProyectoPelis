@@ -13,6 +13,8 @@ public interface WatchLaterMovieRepository extends CrudRepository<WatchLaterMovi
     List<WatchLaterMovie> findAllByIdUser(int idUser);
 
     WatchLaterMovie findByIdMovie(int idMovie);
+
+    WatchLaterMovie findByIdMovieAndIdUser(int idMovie, int idUser);
     
     @Modifying
     @Query(value = "DELETE FROM watch_later_movie WHERE id_movie = ?1", nativeQuery = true)

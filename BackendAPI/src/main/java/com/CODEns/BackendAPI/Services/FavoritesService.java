@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.CODEns.BackendAPI.DTOs.FavoriteMoviesDTO;
+import com.CODEns.BackendAPI.DTOs.ResponseDTO;
 import com.CODEns.BackendAPI.Entities.FavoriteMovies;
 import com.CODEns.BackendAPI.Repositories.FavoriteMoviesRepository;
 
@@ -67,6 +68,15 @@ public class FavoritesService {
     public FavoriteMoviesDTO findByIdMovie(int id_movie) {
         FavoriteMoviesDTO movie = new FavoriteMoviesDTO("Error", "No se encontro en la base de datos.");
         FavoriteMovies data_movie = favoriteMoviesRepository.findByIdMovie(id_movie);
+        if (data_movie != null) {
+            movie = new FavoriteMoviesDTO(data_movie, "Success", "Se encontro en la base de datos.");
+        }
+        return movie;
+    }
+
+    public FavoriteMoviesDTO findByIdMovieAndIdUser(int id_movie, int id_user) {
+        FavoriteMoviesDTO movie = new FavoriteMoviesDTO("Error", "No se encontro en la base de datos.");
+        FavoriteMovies data_movie = favoriteMoviesRepository.findByIdMovieAndIdUser(id_movie, id_user);
         if (data_movie != null) {
             movie = new FavoriteMoviesDTO(data_movie, "Success", "Se encontro en la base de datos.");
         }

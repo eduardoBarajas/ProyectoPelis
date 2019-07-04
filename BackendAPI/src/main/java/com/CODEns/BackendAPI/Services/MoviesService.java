@@ -101,6 +101,30 @@ public class MoviesService {
 		return response;
 	}
 
+    public ResponseDTO<MovieDTO> getAllByIds(List<Integer> ids) {
+		ResponseDTO<MovieDTO> responses = new ResponseDTO<MovieDTO>();
+		for (Integer id : ids) {
+            if (movieRepository.existsById(id)) {
+			    responses.getResponses().add(new MovieDTO(movieRepository.findById(id).get(), "Success", "Se obtuvo la pelicula con exito."));
+            }
+        }
+        boolean some_failed = false;
+		for (MovieDTO mov_response : responses.getResponses()) {
+			if (mov_response.getStatus().equals("Error")) {
+				some_failed = !some_failed;
+				break;
+			}
+		}
+		if (some_failed) {
+			responses.setStatus("Error");
+			responses.setMessage("Algunas peliculas no se encontraron con exito");
+		} else {
+			responses.setStatus("Success");
+			responses.setMessage("Todas las peliculas se encontraron con exito");
+		}
+		return responses;
+	}
+
 	public ResponseDTO<MovieDTO> findByNameAndYear(String name, int year) {
 		ResponseDTO<MovieDTO> response = new ResponseDTO<>();
 		response.setResponses(null);
@@ -150,11 +174,36 @@ public class MoviesService {
 
 	public List<MovieDTO> findAllByFilter(String genre, int yearStart, int yearEnd, double ratingStart, double ratingEnd) {
 		List<MovieDTO> movies_dto = new LinkedList<>();
-		for(Movie movie : movieRepository.findAllByFilter(genre, yearStart, yearEnd, ratingStart, ratingEnd)) {
+        List<Movie> movie_list;
+        System.out.println(genre);
+        if (genre.equals("Todos") == true) {
+            movie_list = movieRepository.findAllByAllGenresFilter(yearStart, yearEnd, ratingStart, ratingEnd);
+            System.out.println("Entro en el primero");
+        } else {
+            movie_list = movieRepository.findAllByFilter(genre, yearStart, yearEnd, ratingStart, ratingEnd);
+            System.out.println("Entro en el segundo");
+        }
+		for(Movie movie : movie_list) {
 			movies_dto.add(new MovieDTO(movie));
 		}
 		return movies_dto;
 	}
+
+    public List<MovieDTO> findTrending() {
+        List<MovieDTO> movies_dto = new LinkedList<>();
+		for(Movie movie : movieRepository.findTrending()) {
+			movies_dto.add(new MovieDTO(movie));
+		}
+		return movies_dto;
+    }
+    
+    public List<MovieDTO> findRecents() {
+        List<MovieDTO> movies_dto = new LinkedList<>();
+		for(Movie movie : movieRepository.findRecents()) {
+			movies_dto.add(new MovieDTO(movie));
+		}
+		return movies_dto;
+    }
 
 	public List<MovieDTO> findAll() {
 		List<MovieDTO> movies_dto = new LinkedList<>();

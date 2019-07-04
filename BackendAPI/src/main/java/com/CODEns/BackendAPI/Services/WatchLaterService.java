@@ -86,6 +86,15 @@ public class WatchLaterService {
         return movie;
     }
 
+    public WatchLaterMovieDTO findByIdMovieAndIdUser(int id_movie, int id_user) {
+        WatchLaterMovieDTO movie = new WatchLaterMovieDTO("Error", "No se encontro en la base de datos.");
+        WatchLaterMovie data_movie = watchLaterRepository.findByIdMovieAndIdUser(id_movie, id_user);
+        if (data_movie != null) {
+            movie = new WatchLaterMovieDTO(data_movie, "Success", "Se encontro en la base de datos.");
+        }
+        return movie;
+    }
+
 	public WatchLaterMovieDTO update(WatchLaterMovie entity) {
 		WatchLaterMovieDTO watch_later_movie_dto = new WatchLaterMovieDTO("Error", "No se encontro en la base de datos.");
 		if (watchLaterRepository.existsById(entity.getIdWatchLater())) {

@@ -31,7 +31,6 @@ public class CommentsController {
 	@Autowired
 	private CommentsService comments_service;
 	
-	@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 	@RequestMapping(value = "/comments/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<MovieCommentDTO> add(@RequestBody MovieComment comment) {
 		return new Resource<>(comments_service.save(comment));

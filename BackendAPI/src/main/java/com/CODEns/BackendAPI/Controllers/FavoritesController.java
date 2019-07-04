@@ -51,6 +51,11 @@ public class FavoritesController {
 		return new Resource<>(favoritesService.findByIdMovie(id_movie));
     }
 
+    @RequestMapping(value = "/Favorites/Movie/{id_movie}/User/{id_user}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<FavoriteMoviesDTO> getFavoritesByMovieAndUser(@PathVariable int id_movie, @PathVariable int id_user) {
+		return new Resource<>(favoritesService.findByIdMovieAndIdUser(id_movie, id_user));
+    }
+
 	@RequestMapping(value = "/Favorites/{id}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<FavoriteMoviesDTO> getFavoriteMovieById(@PathVariable Integer id) {
 		return new Resource<>(favoritesService.getById(id));
