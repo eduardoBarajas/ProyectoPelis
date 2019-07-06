@@ -12,12 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.CODEns.BackendAPI.DTOs.MovieLinkDownDTO;
 import com.CODEns.BackendAPI.DTOs.MovieLinksDTO;
 import com.CODEns.BackendAPI.DTOs.ResponseDTO;
-import com.CODEns.BackendAPI.Entities.MovieLinkDown;
 import com.CODEns.BackendAPI.Entities.MovieLinks;
-import com.CODEns.BackendAPI.Repositories.MovieLinkDownRepository;
 import com.CODEns.BackendAPI.Repositories.MovieLinksRepository;
 
 @Transactional
@@ -33,58 +30,9 @@ public class LinksService {
     }
 
 	@Autowired
-	private MovieLinkDownRepository movieLinkDownRepository;
-	
-	@Autowired
 	private MovieLinksRepository movieLinksRepository;
 	
-	public MovieLinkDownDTO saveLinkDown(MovieLinkDown entity) {
-		MovieLinkDown new_link_down = movieLinkDownRepository.save(entity);
-		MovieLinkDownDTO link_down_dto;
-		if (new_link_down.getIdLinkDown() > 0) {
-			link_down_dto = new MovieLinkDownDTO(new_link_down, "Success", "Se almaceno con exito.");
-		} else {
-			link_down_dto = new MovieLinkDownDTO("Error", "No se pudo guardar en la base de datos.");
-		}
-		return link_down_dto;
-	}
-
-	public List<MovieLinkDownDTO> findAllLinksDown() {
-		List<MovieLinkDownDTO> links_down_dto = new LinkedList<>();
-		for(MovieLinkDown link: movieLinkDownRepository.findAll()) {
-			links_down_dto.add(new MovieLinkDownDTO(link));
-		}
-		return links_down_dto;
-	}
-
-	public MovieLinkDownDTO getLinkDownById(Integer id) {
-		MovieLinkDownDTO link_down_dto = new MovieLinkDownDTO("Error", "No se encontro en la base de datos.");
-		if (movieLinkDownRepository.existsById(id)) {
-			MovieLinkDown link_down = movieLinkDownRepository.findById(id).get();
-			link_down_dto = new MovieLinkDownDTO(link_down, "Success", "Se obtuvo con exito.");
-		}
-		return link_down_dto;
-	}
-
-	public MovieLinkDownDTO deleteLinkDownById(Integer id) {
-		MovieLinkDownDTO link_down_dto = new MovieLinkDownDTO("Error", "No existe en la base de datos.");
-		if (movieLinkDownRepository.existsById(id)) {
-			movieLinkDownRepository.deleteById(id);
-			link_down_dto.setMessage("Se elimino con exito.");
-			link_down_dto.setStatus("Success");
-		}
-		return link_down_dto;
-	}
-
-	public MovieLinkDownDTO updateLinkDown(MovieLinkDown entity) {
-		MovieLinkDownDTO link_down_dto = new MovieLinkDownDTO("Error", "No se encontro en la base de datos.");
-		if (movieLinkDownRepository.existsById(entity.getIdLinkDown())) {
-			link_down_dto = new MovieLinkDownDTO(movieLinkDownRepository.save(entity), "Success", "Se actualizo con exito.");
-		}
-		return link_down_dto;
-	}
-	
-	public HttpStatus saveAll(List<MovieLinks> links) {
+	public HttpStatus replaceAll(List<MovieLinks> links) {
 		List<Integer> movies_identifiers = new LinkedList<>();
 		Map<Integer, List<String>> links_relation = new HashMap<>();
 		for (MovieLinks link : links) {
@@ -162,12 +110,58 @@ public class LinksService {
 		return link_dto;
 	}
 
+    public HttpStatus deleteAllById(List<Integer> ids) {
+		boolean success = true;
+        for (Integer id: ids) {
+            if (movieLinksRepository.existsById(id)) {
+                movieLinksRepository.deleteById(id);
+            } else {
+                success = false;
+            }
+        }
+        if (success) {
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.PARTIAL_CONTENT;
+        }
+	}
+
 	public MovieLinksDTO update(MovieLinks entity) {
 		MovieLinksDTO link_dto = new MovieLinksDTO("Error", "No se encontro en la base de datos.");
-		if (movieLinkDownRepository.existsById(entity.getIdLinkMovie())) {
+		if (movieLinksRepository.existsById(entity.getIdLinkMovie())) {
 			link_dto = new MovieLinksDTO(movieLinksRepository.save(entity), "Success", "Se actualizo con exito.");
 		}
 		return link_dto;
+	}
+
+    public HttpStatus updateAll(List<MovieLinks> links) {
+		boolean success = true;
+        for (MovieLinks link: links) {
+            if (movieLinksRepository.existsById(link.getIdLinkMovie())) {
+                if (movieLinksRepository.save(link) == null) {
+                    success = false;
+                }
+            }
+        }
+        if (success) {
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.PARTIAL_CONTENT;
+        }
+	}
+
+    public HttpStatus saveAll(List<MovieLinks> links) {
+		boolean success = true;
+        for (MovieLinks link: links) {
+            if (movieLinksRepository.save(link) == null) {
+                success = false;
+            }
+        }
+        if (success) {
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.PARTIAL_CONTENT;
+        }
 	}
 
 	public void deleteByIdMovie(Integer id) {

@@ -9,6 +9,7 @@ public class MovieLinksDTO {
 	private int idLinkMovie;
     private int idMovie;
     private String link;
+    private int active;
     private String status;
     private String message;
 
@@ -16,6 +17,7 @@ public class MovieLinksDTO {
         this.idLinkMovie = movieLink.getIdLinkMovie();
         this.idMovie = movieLink.getIdMovie();
         this.link = movieLink.getLink();
+        this.active = movieLink.getActive();
         this.status = status;
         this.message = message;
     }
@@ -29,6 +31,7 @@ public class MovieLinksDTO {
         this.idLinkMovie = movieLink.getIdLinkMovie();
         this.idMovie = movieLink.getIdMovie();
         this.link = movieLink.getLink();
+        this.active = movieLink.getActive();
     }
 
 	public int getIdLinkMovie() {
@@ -61,6 +64,14 @@ public class MovieLinksDTO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+    public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
 	}
 
 	public String getLink() {

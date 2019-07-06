@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path="/users")
-public class UsersController implements ControllerInterface<UserDTO, User> {
+public class UsersController {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -59,16 +59,13 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
 	@Autowired
 	private GenericResourceAssembler<UserDTO> resource_assembler;
 
-	@Override
 	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<UserDTO> add(@RequestBody User entity) {
 		System.out.println(entity.getEmail());
-		entity.setPassword(BCrypt.hashpw(entity.getPassword(), BCrypt.gensalt(16)));
-		UserDTO user_dto = users_service.save(entity);
-		return resource_assembler.toResource(user_dto);
+		entity.setPassword(BCrypt.hashpw(entity.getPassword(), BCrypt.gensalt(10)));
+		return resource_assembler.toResource(users_service.save(entity));
 	}
 
-	@Override
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resources<Resource<UserDTO>> getAll() {
 		// regresa a json todos los usuarios
@@ -77,22 +74,18 @@ public class UsersController implements ControllerInterface<UserDTO, User> {
     	return new Resources<>(users_dto);
 	}
 
-	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<UserDTO> getById(@PathVariable Integer id) {
 		UserDTO user_dto = users_service.getById(id);
 		return resource_assembler.toResource(user_dto);
 	}
 
-	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<UserDTO> deleteById(@PathVariable Integer id) {
 		UserDTO user = users_service.deleteById(id);
 		return resource_assembler.toResource(user);
 	}
 
-	
-	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Resource<UserDTO> update(@RequestBody User entity, @PathVariable Integer id) {
 		// se tuvo que dejar con la variable en el url debido a que ModelAttribute no mapeo el atributo id_usuario

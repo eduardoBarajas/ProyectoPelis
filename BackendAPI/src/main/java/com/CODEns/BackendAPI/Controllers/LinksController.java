@@ -26,7 +26,6 @@ import com.CODEns.BackendAPI.Services.LinksService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping(path="")
 public class LinksController {
 
 	@Autowired
@@ -37,7 +36,12 @@ public class LinksController {
 		return new Resource<>(links_service.save(links, id));
 	}
 
-	@RequestMapping(value = "/admin/links/movies/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/links/movies/replaceAll", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpStatus replaceAll(@RequestBody List<MovieLinks> links) {
+		return links_service.replaceAll(links);
+	}
+
+    @RequestMapping(value = "/admin/links/movies/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public HttpStatus addAll(@RequestBody List<MovieLinks> links) {
 		return links_service.saveAll(links);
 	}
@@ -62,9 +66,19 @@ public class LinksController {
 		return HttpStatus.OK;
 	}
 
-	@RequestMapping(value = "/admin/movie/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Resource<MovieLinksDTO> update(@ModelAttribute MovieLinks entity, @PathVariable Integer id) {
-		entity.setIdMovie(id);
+    @RequestMapping(value = "/admin/links/movie/deleteAll/ids={ids_links}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpStatus deleteAll(@PathVariable List<Integer> ids_links) {
+		return links_service.deleteAllById(ids_links);
+	}
+
+	@RequestMapping(value = "/links/movie/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Resource<MovieLinksDTO> update(@RequestBody MovieLinks entity, @PathVariable Integer id) {
+		entity.setIdLinkMovie(id);
 		return new Resource<>(links_service.update(entity));
+	}
+
+    @RequestMapping(value = "/admin/links/movie/updateAll", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpStatus updateAll(@RequestBody List<MovieLinks> links) {
+		return links_service.updateAll(links);
 	}
 }

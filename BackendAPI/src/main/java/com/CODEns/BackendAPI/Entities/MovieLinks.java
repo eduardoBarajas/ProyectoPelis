@@ -14,6 +14,7 @@ public class MovieLinks {
 	private int idMovie;
     @Column(name="link",columnDefinition="LONGTEXT")
     private String link;
+    private int active;
 
     public MovieLinks() { }
     
@@ -42,6 +43,14 @@ public class MovieLinks {
 
 	public void setIdMovie(int idMovie) {
 		this.idMovie = idMovie;
+	}
+
+    public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
 	}
 
 	public String getLink() {

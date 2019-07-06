@@ -30,9 +30,17 @@ public class User {
     private int authority;
     private int enabled;
 
-    public User(String user) {
-        this.name = user;
-    }
+    public User(int idUser, String name, String username, String password, String email, String creationDate, int authority, int enabled) {
+        this.name = name;
+        this.idUser = idUser;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.creationDate = creationDate;
+        this.authority = authority;
+        this.enabled = enabled;
+    }    
+
     public User() {
 
     }

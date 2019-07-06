@@ -22,13 +22,25 @@ public class UsersService implements ServiceInterface<User, UserDTO> {
 	
 	@Override
 	public UserDTO save(User entity) {
-		User new_user = userRepository.save(entity);
-		UserDTO user_dto;
-		if (new_user.getId() > 0) {
-			user_dto = new UserDTO(new_user, "Success", "Se almaceno el usuario con exito.");
-		} else {
-			user_dto = new UserDTO("Error", "No se pudo guardar el usuario en la base de datos.");
-		}
+        UserDTO user_dto;
+        if (userRepository.findByUsername(entity.getUsername()) != null) {
+            System.out.println(entity.getUsername());
+            user_dto = new UserDTO("Error", "Ya existe un usuario con ese nombre, por favor elige otro.");
+            if (userRepository.findByEmail(entity.getEmail()) != null) {
+                user_dto.setMessage(user_dto.getMessage() + "\n" + " y ese email tambien existe, elige otro.");
+            }
+        } else {
+            if (userRepository.findByEmail(entity.getEmail()) == null) {
+                User new_user = userRepository.save(entity);
+                if (new_user != null) {
+                    user_dto = new UserDTO(new_user, "Success", "Se creo el usuario con exito.");
+                } else {
+                    user_dto = new UserDTO(new_user, "Error", "Hubo un problema al crear el usuario, intenta mas tarde por favor.");
+                }
+            } else {
+                user_dto = new UserDTO("Error", "Ya existe un usuario con ese email, por favor elige otro.");
+            }
+        }
 		return user_dto;
 	}
 

@@ -100,7 +100,9 @@ public class MoviesController {
 	public Resource<ResponseDTO<MovieDTO>> getByNameAndYear(@PathVariable String name, @PathVariable int year) {
 		// si el nombre contiene el caracter '/' en su nombre se debe reemplazar utilizando el tag -slash- que se paso en el string desde el cliente.
 		if (name.contains("-slash-")) {
-			name = java.net.URLDecoder.decode(name.replace("-slash-", "/"), StandardCharsets.UTF_8);
+            try {
+                name = java.net.URLDecoder.decode(name.replace("-slash-", "/"), StandardCharsets.UTF_8.toString());
+            } catch(java.io.UnsupportedEncodingException e) {}
 		}
 		return new Resource<>(movies_service.findByNameAndYear(name, year));
 	}

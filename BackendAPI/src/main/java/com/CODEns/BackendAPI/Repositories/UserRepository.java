@@ -8,4 +8,5 @@ import com.CODEns.BackendAPI.Entities.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 	User findByUsername(String username);
+    User findByEmail(String email);
 }
