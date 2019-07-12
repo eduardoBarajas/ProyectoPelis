@@ -3,16 +3,24 @@ package com.CODEns.BackendAPI.Services;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.CODEns.BackendAPI.DTOs.ResponseDTO;
+import com.CODEns.BackendAPI.DTOs.WatchLaterMovieDTO;
+import com.CODEns.BackendAPI.DTOs.MovieUniqueCheckDTO;
 import com.CODEns.BackendAPI.DTOs.MovieDTO;
 import com.CODEns.BackendAPI.Entities.Movie;
 import com.CODEns.BackendAPI.Repositories.MovieRepository;
+import com.CODEns.BackendAPI.Services.LinksService;
+import com.CODEns.BackendAPI.DTOs.FavoriteMoviesDTO;
+import com.CODEns.BackendAPI.Services.FavoritesService;
+import com.CODEns.BackendAPI.Services.WatchLaterService;
 
 @Service
 public class MoviesService {
@@ -24,6 +32,12 @@ public class MoviesService {
 
 	@Autowired
 	private LinksService linksService;
+
+    @Autowired
+    private FavoritesService favoritesService;
+
+    @Autowired
+    private WatchLaterService watchLaterService;
 	
 	public MovieDTO save(Movie entity) {
 		MovieDTO movie_dto;
@@ -55,8 +69,8 @@ public class MoviesService {
 		return movie_dto;
 	}
 	
-	public ResponseDTO<MovieDTO> saveAll(List<Movie> entities) {
-		ResponseDTO<MovieDTO> response = new ResponseDTO<MovieDTO>();
+	public Map<String, MovieDTO> saveAll(List<MovieDTO> entities) {
+		Map<String, MovieDTO> response = new HashMap<String, MovieDTO>();
 		for (int x = 0; x < entities.size(); x++) {
 			Movie db_entity = movieRepository.findByNameAndYear(entities.get(x).getName(), entities.get(x).getYear());
 			if (db_entity != null) {
@@ -69,35 +83,22 @@ public class MoviesService {
 				db_entity.setLength(entities.get(x).getLength());
 				db_entity.setGenres(entities.get(x).getGenres());
 				movieRepository.save(db_entity);
-				response.getResponses().add(new MovieDTO("Success", "Se actualizo la pelicula con exito.", db_entity.getIdMovie(), db_entity.getName()));
+				response.put(db_entity.getName(), new MovieDTO("Success", "Se actualizo la pelicula con exito.", db_entity.getIdMovie(), db_entity.getName()));
 			} else {
-				if (entities.get(x).getCast() == null)
+                db_entity = new Movie(entities.get(x));				
+                if (entities.get(x).getCast() == null)
 					entities.get(x).setCast(" ");
 				if (entities.get(x).getTags() == null)
 					entities.get(x).setTags(" ");
 				entities.get(x).setGrade(5.0);
-				Movie new_movie = movieRepository.save(entities.get(x));
+				Movie new_movie = movieRepository.save(db_entity);
 				if (new_movie.getIdMovie() > 0) {
-					response.getResponses().add(new MovieDTO(new_movie, "Success", "Se almaceno la pelicula con exito."));
+					response.put(db_entity.getName(), new MovieDTO(new_movie, "Success", "Se almaceno la pelicula con exito."));
 				} else {
-					response.getResponses().add(new MovieDTO("Error", "No se pudo guardar la pelicula en la base de datos."));
+					response.put(db_entity.getName(), new MovieDTO("Error", "No se pudo guardar la pelicula en la base de datos."));
 				}
 			}
 		}	
-		boolean some_failed = false;
-		for (MovieDTO mov_response : response.getResponses()) {
-			if (mov_response.getStatus().equals("Error")) {
-				some_failed = !some_failed;
-				break;
-			}
-		}
-		if (some_failed) {
-			response.setStatus("Error");
-			response.setMessage("Algunas peliculas no se agregaron con exito");
-		} else {
-			response.setStatus("Success");
-			response.setMessage("Todas las peliculas se agregaron con exito");
-		}
 		return response;
 	}
 
@@ -125,7 +126,7 @@ public class MoviesService {
 		return responses;
 	}
 
-	public ResponseDTO<MovieDTO> findByNameAndYear(String name, int year) {
+	/*public ResponseDTO<MovieDTO> findByNameAndYear(String name, int year) {
 		ResponseDTO<MovieDTO> response = new ResponseDTO<>();
 		response.setResponses(null);
 		Movie movie = movieRepository.findByNameAndYear(name, year);
@@ -134,6 +135,35 @@ public class MoviesService {
 			response.setStatus("Success");
 			response.setMessage("Esta pelicula ya se encuentra en el sistema, si continuas con la operacion se sobreescribiran los datos.");
 		}
+		return response;
+	}*/
+
+    public ResponseDTO<MovieDTO> findByNameAndYear(List<MovieUniqueCheckDTO> movies) {
+		ResponseDTO<MovieDTO> response = new ResponseDTO<>();
+        boolean movieFound = false;        
+        for (MovieUniqueCheckDTO entry : movies) {
+            System.out.println(entry.getName());
+            MovieDTO movie;
+            Movie db_movie = movieRepository.findByNameAndYear(entry.getName(), entry.getYear());
+		    if (db_movie != null) {
+                movie = new MovieDTO(db_movie, "OldMovie", "Esta pelicula ya se encuentra en el sistema.");
+                movieFound = true;
+		    } else {
+                movie = new MovieDTO(entry.getName(), entry.getYear(), "NewMovie", "Esta pelicula no se encuentra en el sistema.");
+		    }
+            response.getResponses().add(movie);
+        }
+        if (movieFound) {
+            response.setStatus("MoviesFound");
+            if (response.getResponses().size() > 1) {
+                response.setMessage("Algunas peliculas ya existian en la base de datos, seleccionalas individualmente si deseas sobreescribirlas.");
+            } else {
+                response.setMessage("La pelicula ya exisite en la base de datos, si continuas los datos se sobreescribiran.");
+            }
+        } else {
+            response.setStatus("NoMoviesFound");
+            response.setMessage("Todas son nuevas");
+        }
 		return response;
 	}
 
@@ -172,16 +202,26 @@ public class MoviesService {
 		return genresResponse;
 	}
 
-	public List<MovieDTO> findAllByFilter(String genre, int yearStart, int yearEnd, double ratingStart, double ratingEnd) {
+	public List<MovieDTO> findAllByFilter(String genre, int yearStart, int yearEnd, double ratingStart, double ratingEnd, String name) {
 		List<MovieDTO> movies_dto = new LinkedList<>();
         List<Movie> movie_list;
         System.out.println(genre);
         if (genre.equals("Todos") == true) {
-            movie_list = movieRepository.findAllByAllGenresFilter(yearStart, yearEnd, ratingStart, ratingEnd);
-            System.out.println("Entro en el primero");
+            if (name.equals("") == true) {
+                System.out.println("Todos los generos y sin nombre");
+                movie_list = movieRepository.findAllByFilterWithoutGenreAndWithoutName(yearStart, yearEnd, ratingStart, ratingEnd);    
+            } else {
+                System.out.println("Todos los generos y con nombre");
+                movie_list = movieRepository.findAllByFilterWithoutGenreAndWithName(yearStart, yearEnd, ratingStart, ratingEnd, name); 
+            }
         } else {
-            movie_list = movieRepository.findAllByFilter(genre, yearStart, yearEnd, ratingStart, ratingEnd);
-            System.out.println("Entro en el segundo");
+            if (name.equals("") == true) {
+                movie_list = movieRepository.findAllByFilterWithoutName(genre, yearStart, yearEnd, ratingStart, ratingEnd);
+                System.out.println("Con genero y sin nombre");
+            } else {
+                movie_list = movieRepository.findAllByFilterWithName(genre, yearStart, yearEnd, ratingStart, ratingEnd, name);
+                System.out.println("Con genero y con nombre");
+            }   
         }
 		for(Movie movie : movie_list) {
 			movies_dto.add(new MovieDTO(movie));
@@ -205,6 +245,14 @@ public class MoviesService {
 		return movies_dto;
     }
 
+    public List<MovieDTO> getMoviesByGenreWithLimit(String genre, int limit) {
+        List<MovieDTO> movies_dto = new LinkedList<>();
+        for (Movie movie : movieRepository.findMoviesByGenreWithLimit(genre, limit)) {
+            movies_dto.add(new MovieDTO(movie));
+        }
+        return movies_dto;
+    }
+
 	public List<MovieDTO> findAll() {
 		List<MovieDTO> movies_dto = new LinkedList<>();
 		for(Movie movie : movieRepository.findAll()) {
@@ -223,6 +271,23 @@ public class MoviesService {
 			}*/
 		}
 		return movie_dto;
+	}
+    
+    public ResponseDTO<String> getMovieUserNotation(Integer id_movie, Integer id_user) {
+		ResponseDTO<String> response = new ResponseDTO<>();
+        System.out.println("Favoritos: " + movieRepository.findFavoriteWithIdUserAndIdMovie(id_movie, id_user));
+        System.out.println("Watch Later: " + movieRepository.findWatchLaterWithIdUserAndIdMovie(id_movie, id_user));
+		if (movieRepository.findFavoriteWithIdUserAndIdMovie(id_movie, id_user) != null) {
+           response.getResponses().add("InFavorites");
+        } else {
+            response.getResponses().add("NotInFavorites");
+        }
+        if (movieRepository.findWatchLaterWithIdUserAndIdMovie(id_movie, id_user) != null) {
+            response.getResponses().add("InWatchLater");
+        } else {
+            response.getResponses().add("NotInWatchLater");
+        }
+		return response;
 	}
 
 	public MovieDTO deleteById(Integer id) {
@@ -244,4 +309,20 @@ public class MoviesService {
 		}
 		return movie_dto;
 	}
+
+    public ResponseDTO<MovieDTO> findAllFavorites(int id_user) {
+        List<Integer> moviesIds = new LinkedList<>();
+        for (FavoriteMoviesDTO fav : this.favoritesService.findAllByUser(id_user)) {
+            moviesIds.add(fav.getIdMovie());
+        }
+        return this.getAllByIds(moviesIds);
+    }
+
+    public ResponseDTO<MovieDTO> findAllWatchLater(int id_user) {
+        List<Integer> moviesIds = new LinkedList<>();
+        for (WatchLaterMovieDTO later : this.watchLaterService.findAllByUser(id_user)) {
+            moviesIds.add(later.getIdMovie());
+        }
+        return this.getAllByIds(moviesIds);
+    }
 }

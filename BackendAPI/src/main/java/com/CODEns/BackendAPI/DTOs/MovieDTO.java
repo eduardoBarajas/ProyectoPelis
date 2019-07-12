@@ -2,6 +2,8 @@ package com.CODEns.BackendAPI.DTOs;
 
 
 import com.CODEns.BackendAPI.Entities.Movie;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MovieDTO {
 	private Integer idMovie;
@@ -17,6 +19,7 @@ public class MovieDTO {
     private Integer year;
     private String creationDate;
     private String modificationDate;
+    private List<String> movieLinks = new LinkedList<>();
     private String status;
     private String message;
 
@@ -49,6 +52,13 @@ public class MovieDTO {
     	this.idMovie = idMovie;
     	this.name = name;
     }
+
+    public MovieDTO(String name, int year, String status, String message) {
+        this.status = status;
+    	this.message = message;
+    	this.year = year;
+    	this.name = name;
+    }
     
     public MovieDTO(Movie mv) {
     	this.idMovie = mv.getIdMovie();
@@ -65,6 +75,8 @@ public class MovieDTO {
 		this.genres = mv.getGenres();
 		this.modificationDate = mv.getModificationDate();
     }
+
+    public MovieDTO() { }
 
 	public Integer getIdMovie() {
 		return idMovie;
@@ -186,4 +198,11 @@ public class MovieDTO {
 		this.message = message;
 	}
     
+    public void setMovieLinks(List<String> links) {
+        this.movieLinks = links;
+    }
+
+    public List<String> getMovieLinks() {
+        return movieLinks;
+    }
 }
