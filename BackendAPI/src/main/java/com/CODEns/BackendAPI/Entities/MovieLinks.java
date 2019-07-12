@@ -29,6 +29,12 @@ public class MovieLinks {
 		this.link = link;
 	}
     
+    public MovieLinks(int idMovie, String link, int active) {
+		this.idMovie = idMovie;
+		this.link = link;
+        this.active = active;
+	}
+    
     public int getIdLinkMovie() {
 		return idLinkMovie;
 	}

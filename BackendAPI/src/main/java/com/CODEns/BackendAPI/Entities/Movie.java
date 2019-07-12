@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import com.CODEns.BackendAPI.DTOs.MovieDTO;
 @Entity
 public class Movie {
 	@Id
@@ -30,6 +31,22 @@ public class Movie {
 
     public Movie() {
     	
+    }
+
+    public Movie(MovieDTO movie) {
+        this.idMovie = movie.getIdMovie();
+        this.name = movie.getName();
+        this.originalName = movie.getOriginalName();
+        this.synopsis = movie.getSynopsis();
+        this.length = movie.getLength();
+        this.poster = movie.getPoster();
+        this.tags = movie.getTags();
+        this.genres = movie.getGenres();
+        this.cast = movie.getCast();
+        this.grade = movie.getGrade();
+        this.year = movie.getYear();
+        this.creationDate = movie.getCreationDate();
+        this.modificationDate = movie.getModificationDate();
     }
 
 	public Integer getIdMovie() {
